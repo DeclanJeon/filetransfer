@@ -1,0 +1,27 @@
+{
+    "name": "filetransfer",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DeclanJeon/filetransfer.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/DeclanJeon/filetransfer/issues"
+    },
+    "homepage": "https://github.com/DeclanJeon/filetransfer#readme",
+    "dependencies": {
+        "ejs": "^3.1.8",
+        "express": "^4.18.1",
+        "fs": "^0.0.1-security",
+        "path": "^0.12.7"
+    }
+}
