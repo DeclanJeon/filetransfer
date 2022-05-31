@@ -1,0 +1,150 @@
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+	<style>
+		#delivery_container {
+		    position: fixed;
+		    top: 15%;
+		    left: 0;
+		    right: 0;
+		    margin: 0 auto;
+		    width: 40rem;
+		    z-index: 5;
+		    background: #fff;
+		    border-radius: 15px;
+		    padding: 1.2rem;
+		}
+
+		@media (max-width: 768px) {
+		    #delivery_container {
+		        width: calc(100% - 50px);
+		    }
+		}
+
+
+	</style>
+</head>
+<body>
+	
+	<div class="delivery_container" id="delivery_container">
+    <div class="container">
+        <h5 class="title" id="fileDelivery_Title">File Delivery</h5>
+    </div>
+    <div class="fileShare__container">
+        <form id="sendForm" class="col-sm-6">
+            <div class="form-group filebox">
+                <input id="fileInput" name="file[]" type="file" class="form-control" multiple /><br />
+                <input type="button" id="sendBtn" class="btn btn-default form-control fileDeliveryBtn"
+                    value="Send"></input><br /><br />
+                <label for="">Key: </label> <span id="key" class="text-success"></span>
+            </div>
+        </form>
+        <form id="receiveForm" class="col-sm-6">
+            <div class="form-group">
+                <input id="keyInput" class="form-control" /><br />
+                <input type="button" id="receiveBtn" class="btn btn-default form-control fileDeliveryBtn"
+                    value="Receive"></input><br /><br />
+                <label for="">Status: </label> <span id="status" class="text-success"></span>
+            </div>
+        </form>
+    </div>
+</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			function updateDevice() {
+				$.ajax({
+					url: 'https://send-anywhere.com/web/v1/device',
+					type: 'GET',
+					dataType: 'jsonp',
+					data: {api_key: "503d6430f3c124e0f239092e9c916b932a869dfe", profile_name: "username"},
+					cache: false
+				}).done(function (data) {
+				});
+			}
+			function createKey(files) {
+				var params = { file: [] };
+				var formData = new FormData();
+				for (var i = 0; i < files.length; i++) {
+					var file = files[i];
+					params.file.push({ name: file.name, size: file.size });
+					formData.append("file" + i, file, file.name);
+				}
+
+				$.ajax({
+					url: 'https://send-anywhere.com/web/v1/key',
+					type: 'GET',
+					data: params,
+					dataType: 'jsonp',
+					cache: false
+				}).done(function (data, textStatus, xhr) {
+					$('#key').text(data.key);
+					sendFile(data.weblink, formData);
+				});
+			}
+
+			function sendFile(url, data) {
+				$.ajax({
+					url: url,
+					type: 'POST',
+					processData: false,
+					contentType: false,
+					data: data,
+					cache: false
+				}).done(function (data) {
+				});
+			}
+
+			function receiveKey(key) {
+				$('#status').text('waiting');
+				$.ajax({
+					url: 'https://send-anywhere.com/web/v1/key/' + key,
+					type: 'GET',
+					dataType: 'jsonp',
+					timeout: 3000,
+					cache: false
+				}).done(function (data) {
+					receiveFile(data.weblink);
+					$('#status').text('done');
+				}).fail(function (xhr, textStatus, error) {
+					$('#receiveForm .form-group').addClass('has-error');
+					$('#status').text('failed').removeClass('text-success').addClass('text-danger');
+				});
+			}
+
+			function receiveFile(url) {
+				$('<iframe />')
+					.attr('src', url)
+					.hide()
+					.appendTo('body');
+			}
+
+			$('#sendBtn').click(function (){
+				var files = $('#fileInput').prop('files')
+				if (files.length > 0) {
+					createKey(files);
+				}
+			});
+
+			$('#receiveBtn').click(function (){
+				receiveKey($('#keyInput').val());
+			});
+
+			$('#keyInput').keyup(function (e) {
+				if(e.keyCode == 13){
+					$('#receiveBtn').click();
+				}
+			});
+
+			$('#keyInput').keydown(function () {
+				$('#receiveForm .form-group').removeClass('has-error');
+				$('#status').text('').removeClass('text-danger').addClass('text-success');
+			});
+
+		    updateDevice();
+		})
+	</script>
+</body>
+</html>
