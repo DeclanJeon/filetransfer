@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
-let port = 2020;
+let port = process.env.PORT || 5000;
 
 app.set("view engine", "ejs");
 app.get("/fileTransfer/api/v1", (req, res) => {
