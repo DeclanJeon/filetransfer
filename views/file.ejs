@@ -12,9 +12,24 @@
 			margin: 0 auto;
 			width: 80rem;
 			z-index: 5;
-			background: #fff;
+			background: #292933;
 			border-radius: 15px;
 			padding: 1.2rem;
+		}
+
+		.sendForm,
+		.receiveForm {
+			display: flex;
+		}
+
+		.sendForm>input[type="button"] {
+			background: #df706f;
+			width: 12rem;
+		}
+
+		.receiveForm>input[type="button"] {
+			background: #df706f;
+			width: 12rem;
 		}
 
 		@media (max-width: 768px) {
@@ -33,7 +48,7 @@
 		</div>
 		<div class="fileShare__container">
 			<form id="sendForm" class="col-sm-6">
-				<div class="form-group filebox">
+				<div class="form-group sendForm">
 					<input id="fileInput" name="file[]" type="file" class="form-control" multiple /><br />
 					<input type="button" id="sendBtn" class="btn btn-default form-control fileDeliveryBtn"
 						value="Send"></input><br /><br />
@@ -41,7 +56,7 @@
 				</div>
 			</form>
 			<form id="receiveForm" class="col-sm-6">
-				<div class="form-group">
+				<div class="form-group receiveForm">
 					<input id="keyInput" class="form-control"
 						placeholder="Please insert the Key number to download the file." /><br />
 					<input type="button" id="receiveBtn" class="btn btn-default form-control fileDeliveryBtn"
