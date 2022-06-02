@@ -4,17 +4,22 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
 	<style>
-		#delivery_container {
-			position: fixed;
-			top: 15%;
+		.container {
+			max-height: 600px;
+			max-width: 600px;
+			padding: 4rem;
+			background: #292933;
+
+			position: absolute;
+			top: 25%;
 			left: 0;
 			right: 0;
 			margin: 0 auto;
-			width: 80rem;
-			z-index: 5;
-			background: #292933;
-			border-radius: 15px;
-			padding: 1.2rem;
+		}
+
+		.form-container {
+			display: flex;
+			flex-direction: column;
 		}
 
 		.sendForm,
@@ -22,20 +27,45 @@
 			display: flex;
 		}
 
-		.sendForm>input[type="button"] {
-			background: #df706f;
-			width: 12rem;
-		}
-
+		.sendForm>input[type="button"],
 		.receiveForm>input[type="button"] {
 			background: #df706f;
 			width: 12rem;
+			color: #fff;
+			margin-left: 3rem;
+			font-weight: 600;
 		}
 
-		@media (max-width: 768px) {
-			#delivery_container {
-				width: calc(100% - 50px);
-			}
+		.send-title,
+		.receive-title {
+			color: #fff;
+			font-size: 2rem;
+			font-weight: 700;
+			margin-bottom: 1.1rem;
+		}
+
+		.form-control {
+			background-color: #50a6c7;
+			color: #fff;
+			border: none;
+		}
+
+		.form-control::placeholder {
+			color: #fff;
+		}
+
+		.label {
+			font-size: 1.5rem;
+			font-weight: 400;
+			padding: 0;
+		}
+
+		.text-success {
+			color: #fff;
+		}
+
+		hr {
+			width: 95%;
 		}
 	</style>
 </head>
@@ -44,26 +74,33 @@
 
 	<div class="delivery_container" id="delivery_container">
 		<div class="container">
-			<h5 class="title" id="fileDelivery_Title">File Delivery</h5>
-		</div>
-		<div class="fileShare__container">
-			<form id="sendForm" class="col-sm-6">
-				<div class="form-group sendForm">
-					<input id="fileInput" name="file[]" type="file" class="form-control" multiple /><br />
-					<input type="button" id="sendBtn" class="btn btn-default form-control fileDeliveryBtn"
-						value="Send"></input><br /><br />
-					<label for="">Key: </label> <span id="key" class="text-success"></span>
+			<div class="form-container">
+				<div class="send-title col-sm-6">
+					<span class="title">File Send</span>
 				</div>
-			</form>
-			<form id="receiveForm" class="col-sm-6">
-				<div class="form-group receiveForm">
-					<input id="keyInput" class="form-control"
-						placeholder="Please insert the Key number to download the file." /><br />
-					<input type="button" id="receiveBtn" class="btn btn-default form-control fileDeliveryBtn"
-						value="Receive"></input><br /><br />
-					<label for="">Status: </label> <span id="status" class="text-success"></span>
+				<form id="sendForm" class="col-sm-6">
+					<div class="form-group sendForm">
+						<input id="fileInput" name="file[]" type="file" class="form-control" multiple />
+						<input type="button" id="sendBtn" class="btn form-control fileDeliveryBtn" value="Send"></input>
+					</div>
+					<label class="label" for="">Key: </label> <span id="key" class="text-success"></span>
+				</form>
+
+				<hr />
+
+				<div class="receive-title col-sm-6">
+					<span class="title">File Receive</span>
 				</div>
-			</form>
+				<form id="receiveForm" class="col-sm-6">
+					<div class="form-group receiveForm">
+						<input id="keyInput" class="form-control"
+							placeholder="Please insert the Key number to download the file." />
+						<input type="button" id="receiveBtn" class="btn form-control fileDeliveryBtn"
+							value="Receive"></input>
+					</div>
+					<label class="label" for="">Status: </label> <span id="status" class="text-success"></span>
+				</form>
+			</div>
 		</div>
 	</div>
 
